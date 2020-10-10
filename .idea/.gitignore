@@ -1,0 +1,16 @@
+# Default ignored files
+/shelf/
+/workspace.xml
+*.jar
+*.war
+*.ear
+.idea/
+*.iml
+*.log
+target/
+output/
+data_store/
+tfmodels/
+model_specs/
+validation_data/
+*.DS_Store
