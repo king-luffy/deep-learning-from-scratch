@@ -88,19 +88,20 @@ def _change_one_hot_label(X):
 
 
 def load_mnist(normalize=True, flatten=True, one_hot_label=False):
-    """MNISTデータセットの読み込み
+    """
+    读取MNIST数据集
 
-    Parameters
+    参数
     ----------
-    normalize : 画像のピクセル値を0.0~1.0に正規化する
-    one_hot_label :
-        one_hot_labelがTrueの場合、ラベルはone-hot配列として返す
-        one-hot配列とは、たとえば[0,0,1,0,0,0,0,0,0,0]のような配列
-    flatten : 画像を一次元配列に平にするかどうか
+    normalize归一化：将图像的像素值归一化为0.0〜1.0
+    one_hot_label：
+    如果one_hot_label为True，则将标签作为单热点数组返回
+    一热阵列是诸如[0,0,1,0,0,0,0,0,0,0]之类的阵列。
+    flatten展平：是否将图像展平为一维数组
 
-    Returns
+    返回
     -------
-    (訓練画像, 訓練ラベル), (テスト画像, テストラベル)
+    （训练图像，训练标签），（测试图像，测试标签）
     """
     if not os.path.exists(save_file):
         init_mnist()

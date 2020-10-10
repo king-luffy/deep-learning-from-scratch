@@ -38,10 +38,15 @@ network = init_network()
 batch_size = 100 # バッチの数
 accuracy_cnt = 0
 
+x_sample = None
+y_sample = None
 for i in range(0, len(x), batch_size):
     x_batch = x[i:i+batch_size]
+    x_sample = x_batch
     y_batch = predict(network, x_batch)
+    y_sample = y_batch
     p = np.argmax(y_batch, axis=1)
     accuracy_cnt += np.sum(p == t[i:i+batch_size])
 
+print(x_sample.shape)
 print("Accuracy:" + str(float(accuracy_cnt) / len(x)))

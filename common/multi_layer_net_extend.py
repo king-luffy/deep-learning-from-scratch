@@ -7,23 +7,23 @@ from common.layers import *
 from common.gradient import numerical_gradient
 
 class MultiLayerNetExtend:
-    """拡張版の全結合による多層ニューラルネットワーク
-    
-    Weiht Decay、Dropout、Batch Normalizationの機能を持つ
+    """扩展版本的全链接多层神经网络
 
-    Parameters
-    ----------
-    input_size : 入力サイズ（MNISTの場合は784）
-    hidden_size_list : 隠れ層のニューロンの数のリスト（e.g. [100, 100, 100]）
-    output_size : 出力サイズ（MNISTの場合は10）
-    activation : 'relu' or 'sigmoid'
-    weight_init_std : 重みの標準偏差を指定（e.g. 0.01）
-        'relu'または'he'を指定した場合は「Heの初期値」を設定
-        'sigmoid'または'xavier'を指定した場合は「Xavierの初期値」を設定
-    weight_decay_lambda : Weight Decay（L2ノルム）の強さ
-    use_dropout: Dropoutを使用するかどうか
-    dropout_ration : Dropoutの割り合い
-    use_batchNorm: Batch Normalizationを使用するかどうか
+     增加Weiht Decay、Dropout、Batch Normalization功能
+
+     参数
+     ----------
+     input_size：输入大小（MNIST为784）
+     hidden_​​size_list：隐藏层中神经元数量的列表（例如[100，100，100]）
+     output_size：输出大小（MNIST为10）
+     激活：“ relu”或“ Sigmoid”
+     weight_init_std：指定重量的标准偏差（例如0.01）
+         如果您指定“ relu”或“ he”，请设置“ He的初始值”
+         如果指定“ sigmoid”或“ xavier”，则设置“ Xavier的初始值”
+     weight_decay_lambda：重量衰减强度（L2规范）
+     use_dropout：是否使用Dropout
+     dropout_ration：Dropout比例
+     use_batchNorm：是否使用强制批标准化
     """
     def __init__(self, input_size, hidden_size_list, output_size,
                  activation='relu', weight_init_std='relu', weight_decay_lambda=0, 
@@ -37,10 +37,10 @@ class MultiLayerNetExtend:
         self.use_batchnorm = use_batchnorm
         self.params = {}
 
-        # 重みの初期化
+        # 权重初始化
         self.__init_weight(weight_init_std)
 
-        # レイヤの生成
+        # 层生成
         activation_layer = {'sigmoid': Sigmoid, 'relu': Relu}
         self.layers = OrderedDict()
         for idx in range(1, self.hidden_layer_num+1):
@@ -62,13 +62,13 @@ class MultiLayerNetExtend:
         self.last_layer = SoftmaxWithLoss()
 
     def __init_weight(self, weight_init_std):
-        """重みの初期値設定
+        """权重初始值设定
 
-        Parameters
-        ----------
-        weight_init_std : 重みの標準偏差を指定（e.g. 0.01）
-            'relu'または'he'を指定した場合は「Heの初期値」を設定
-            'sigmoid'または'xavier'を指定した場合は「Xavierの初期値」を設定
+         参数
+         ----------
+         weight_init_std：指定重量的标准偏差（例如0.01）
+             如果您指定“ relu”或“ he”，请设置“ He的初始值”
+             如果指定“ sigmoid”或“ xavier”，则设置“ Xavier的初始值”
         """
         all_size_list = [self.input_size] + self.hidden_size_list + [self.output_size]
         for idx in range(1, len(all_size_list)):
@@ -90,8 +90,8 @@ class MultiLayerNetExtend:
         return x
 
     def loss(self, x, t, train_flg=False):
-        """損失関数を求める
-        引数のxは入力データ、tは教師ラベル
+        """求损失函数
+         参数x是输入数据，t是老师标签
         """
         y = self.predict(x, train_flg)
 
@@ -111,18 +111,18 @@ class MultiLayerNetExtend:
         return accuracy
 
     def numerical_gradient(self, x, t):
-        """勾配を求める（数値微分）
+        """求梯度（数值微分）
 
-        Parameters
-        ----------
-        x : 入力データ
-        t : 教師ラベル
+         参数
+         ----------
+         x：输入数据
+         t：老师标签
 
-        Returns
-        -------
-        各層の勾配を持ったディクショナリ変数
-            grads['W1']、grads['W2']、...は各層の重み
-            grads['b1']、grads['b2']、...は各層のバイアス
+         返回
+         -------
+         每层渐变的字典变量
+             渐变['W1']，渐变['W2']，...是每一层的权重
+             渐变['b1']，渐变['b2']，...是每一层的偏差
         """
         loss_W = lambda W: self.loss(x, t, train_flg=True)
 

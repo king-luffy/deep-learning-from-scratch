@@ -44,12 +44,12 @@ class Affine:
         
         self.x = None
         self.original_x_shape = None
-        # 重み・バイアスパラメータの微分
+        # 权重/偏差参数的微分
         self.dW = None
         self.db = None
 
     def forward(self, x):
-        # テンソル対応
+        # 使用张量
         self.original_x_shape = x.shape
         x = x.reshape(x.shape[0], -1)
         self.x = x
@@ -63,7 +63,7 @@ class Affine:
         self.dW = np.dot(self.x.T, dout)
         self.db = np.sum(dout, axis=0)
         
-        dx = dx.reshape(*self.original_x_shape)  # 入力データの形状に戻す（テンソル対応）
+        dx = dx.reshape(*self.original_x_shape)  # 返回输入数据的形状（与张量兼容）
         return dx
 
 
@@ -82,7 +82,7 @@ class SoftmaxWithLoss:
 
     def backward(self, dout=1):
         batch_size = self.t.shape[0]
-        if self.t.size == self.y.size: # 教師データがone-hot-vectorの場合
+        if self.t.size == self.y.size: # 当训练数据为one-hot-vector时
             dx = (self.y - self.t) / batch_size
         else:
             dx = self.y.copy()

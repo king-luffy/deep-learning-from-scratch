@@ -15,17 +15,28 @@ def get_data():
 def init_network():
     with open("sample_weight.pkl", 'rb') as f:
         network = pickle.load(f)
+        print("W1 :%s,W2:%s,W3:%s" %
+              (network['W1'].shape, network['W2'].shape, network['W3'].shape))
     return network
 
 
+# network : 模型
+# x 输入参数
 def predict(network, x):
+    # 权重
     W1, W2, W3 = network['W1'], network['W2'], network['W3']
+    # 偏差
     b1, b2, b3 = network['b1'], network['b2'], network['b3']
 
+    # 第一层神经网络
     a1 = np.dot(x, W1) + b1
     z1 = sigmoid(a1)
+
+    # 第二层神经网络
     a2 = np.dot(z1, W2) + b2
     z2 = sigmoid(a2)
+
+    # 第三层神经网络
     a3 = np.dot(z2, W3) + b3
     y = softmax(a3)
 
